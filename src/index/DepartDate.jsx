@@ -3,7 +3,7 @@ import "./DepartDate.css";
 
 export default function DepartDate (props) {
   return (
-    <div>
+    <div className="">
       
     </div>
   )

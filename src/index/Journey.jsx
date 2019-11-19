@@ -10,7 +10,9 @@ export default function Journey (props) {
   } = props;
   return (
     <div className="journey">
-      <div className="journey-station">
+      <div 
+        onClick={()=> showCitySelector(true)}
+        className="journey-station">
         <input 
           type="text"
           readOnly
@@ -20,9 +22,16 @@ export default function Journey (props) {
           />
       </div>
       <div className="journey-switch">
-        <img src={ switchImg } alt="switch" width="70" height="40"/>
+        <img 
+          src={ switchImg } 
+          onClick={()=> exchangeFromTo()}
+          alt="switch" 
+          width="70" 
+          height="40"/>
       </div>
-      <div className="journey-station">
+      <div
+        onClick={()=> showCitySelector(false)}
+        className="journey-station">
         <input 
           type="text"
           readOnly
