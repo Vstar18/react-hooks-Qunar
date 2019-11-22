@@ -19,7 +19,7 @@ export default function DepartDate (props) {
     + (isToday ? '（今天）' : '');
   return (
     <div className="depart-date" onClick={ onClick }>
-      {departDateString}
+      {departDateString}{'test'}
       <span className="depart-week">{weekString}</span>
     </div>
   )
