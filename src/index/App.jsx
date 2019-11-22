@@ -20,7 +20,9 @@ function App (props) {
     from, 
     to,
     showCitySelector,
-    dispatch
+    dispatch,
+    departDate,
+    showDateSelector
   } = props;
 
   const onBack = useCallback(() => {
@@ -35,14 +37,22 @@ function App (props) {
       },
       dispatch
     )
-  })
+  });
+  const departDatecbs = useMemo(() =>{
+    return bindActionCreators(
+      {
+        onClick:showDateSelector
+      },
+    dispatch
+    )
+  });
   return (
     <div className="app-container">
       <div className="header-wrapper">
         <Header title="火车票" onBack={ onBack } />
       </div>
-      <Journey from ={ from } to ={ to } {...cbs} />
-      <DepartDate/>
+      <Journey from ={ from } to ={ to } { ...cbs } />
+      <DepartDate time = { departDate } { ...departDatecbs }/>
       <HighSpeed/>
       <Submit/>
     </div>
