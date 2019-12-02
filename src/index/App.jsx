@@ -9,20 +9,26 @@ import Journey from "./Journey";
 import HighSpeed from "./HighSpeed";
 import DepartDate from "./DepartDate";
 import Submit from "./Submit";
+import CitySlector from "../common/CitySelector";
 
 import {
   showCitySelector,
-  exchangeFromTo
+  exchangeFromTo,
+  hideCitySelector,
+  fetchCityData
 } from "./actions.js";
 
 function App (props) {
   const { 
     from, 
     to,
-    showCitySelector,
+    // showCitySelector,
     dispatch,
     departDate,
-    showDateSelector
+    showDateSelector,
+    isCitySelectorVisible,
+    cityData,
+    isLoadingCityData,
   } = props;
 
   const onBack = useCallback(() => {
@@ -38,7 +44,7 @@ function App (props) {
       dispatch
     )
   });
-  const departDatecbs = useMemo(() =>{
+  const departDatecbs = useMemo(() => { 
     return bindActionCreators(
       {
         onClick:showDateSelector
@@ -46,6 +52,16 @@ function App (props) {
     dispatch
     )
   });
+  const citySelectorCbs = useMemo(() => {
+    return bindActionCreators(
+      {
+        onBack:hideCitySelector,
+        fetchCityData
+      },
+      dispatch
+    )
+  })
+
   return (
     <div className="app-container">
       <div className="header-wrapper">
@@ -55,6 +71,12 @@ function App (props) {
       <DepartDate time = { departDate } { ...departDatecbs }/>
       <HighSpeed/>
       <Submit/>
+      <CitySlector
+        show={isCitySelectorVisible}
+        cityData={cityData}
+        isLoading={isLoadingCityData}
+        {...citySelectorCbs}
+        ></CitySlector>
     </div>
   )
 }
