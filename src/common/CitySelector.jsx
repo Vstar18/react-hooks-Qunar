@@ -18,6 +18,7 @@ export default function CitySelector (props) {
       return;
     }
     fetchCityData();
+    
   }, [show,cityData, isLoading]);
   return (  
     <div className={['city-selector', (!show) && 'hidden'].filter(Boolean).join(' ')}>
