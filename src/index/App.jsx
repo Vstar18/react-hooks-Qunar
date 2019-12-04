@@ -9,13 +9,14 @@ import Journey from "./Journey";
 import HighSpeed from "./HighSpeed";
 import DepartDate from "./DepartDate";
 import Submit from "./Submit";
-import CitySlector from "../common/CitySelector";
+import CitySelector from "../common/CitySelector";
 
 import {
   showCitySelector,
   exchangeFromTo,
   hideCitySelector,
-  fetchCityData
+  fetchCityData,
+  setSelectedCity
 } from "./actions.js";
 
 function App (props) {
@@ -43,7 +44,7 @@ function App (props) {
       },
       dispatch
     )
-  });
+  },[]);
   const departDatecbs = useMemo(() => { 
     return bindActionCreators(
       {
@@ -51,16 +52,17 @@ function App (props) {
       },
     dispatch
     )
-  });
+  },[]);
   const citySelectorCbs = useMemo(() => {
     return bindActionCreators(
       {
         onBack:hideCitySelector,
-        fetchCityData
+        fetchCityData,
+        onSelect:setSelectedCity
       },
       dispatch
     )
-  })
+  },[])
 
   return (
     <div className="app-container">
@@ -71,12 +73,12 @@ function App (props) {
       <DepartDate time = { departDate } { ...departDatecbs }/>
       <HighSpeed/>
       <Submit/>
-      <CitySlector
+      <CitySelector
         show={isCitySelectorVisible}
         cityData={cityData}
         isLoading={isLoadingCityData}
         {...citySelectorCbs}
-        ></CitySlector>
+        ></CitySelector>
     </div>
   )
 }

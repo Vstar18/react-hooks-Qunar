@@ -73,6 +73,7 @@ export function setSelectedCity (city) {
     } else {
       dispatch(setTo(city))
     }
+    dispatch(hideCitySelector());
   }
 }
 
@@ -104,10 +105,22 @@ export function fetchCityData() {
       return;
     } 
     dispatch(setIsLoadingCityData(true));
-    fetch('/rest/cities?_' + Date.now())
+    let cache = JSON.parse(localStorage.getItem('cityData_cache')) || {};
+    if( Date.now() < cache.expires ) {
+      dispatch(setCityData(cache.data));
+      dispatch(setIsLoadingCityData(false));
+      return;
+    }
+    fetch('http://127.0.0.1/rest/cities')
     .then(res => res.json())
     .then(cityData => {
         dispatch(setCityData(cityData));
+        // 本地缓存，cityData不回一直变化
+        localStorage.setItem('cityData_cache',
+        JSON.stringify({
+          expires: Date.now() + 60 * 1000,
+          data:cityData
+        }))
         dispatch(setIsLoadingCityData(false));
     })
     .catch(() => {
